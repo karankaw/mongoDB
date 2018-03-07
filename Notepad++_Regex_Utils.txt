@@ -1,0 +1,11 @@
+
+
+'\w+': 
+
+', +:     
+Examples
+,   :
+,      :
+, :
+
+//https://stackoverflow.com/questions/4386486/what-is-the-regular-expression-in-notepad-to-detect-words-like-npn-that-en
