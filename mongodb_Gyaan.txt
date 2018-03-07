@@ -1,0 +1,54 @@
+https://avaldes.com/mongodb-basics-finding-distinct-values-using-sort-and-finding-the-number-of-documents-in-a-collection/
+https://www.compose.com/articles/aggregations-in-mongodb-by-example/
+
+
+
+https://docs.mongodb.com/manual/reference/method/db.collection.find/#db.collection.find
+db.collection.find(query, projection)
+
+https://docs.mongodb.com/manual/reference/operator/aggregation/group/
+ { $group: { _id: <expression>, 
+                  <field1>: { <accumulator1> : <expression1> }, ... } }
+				  
+   accumulator  $sum $first $last $avg $sum
+   <expression>      '$NameOfField'  
+   
+   
+https://www.mkyong.com/mongodb/mongodb-group-count-and-sort-example/
+> db.whois_range.aggregate([
+		{"$group" : {_id:{source:"$source",status:"$status"}, count:{$sum:1}}} ])
+	])
+https://www.compose.com/articles/aggregations-in-mongodb-by-example/
+
+total: {$sum: 1}
+total_amount: {$sum: '$amount'}
+
+
+
+https://www.compose.com/articles/aggregations-in-mongodb-by-example/
+
+//=============================================================================
+
+result_cursor = db.originalTrainingData.aggregate(
+   [
+ 	  //{ $limit:1000000},//1 Miilion  for now //Setting this gets 50 Records from Stored Dataset in 5.71 Sec on RoboMongo tool
+     { $sort: { productSum: 1, fecha_dato: 1 } },//1 is asc, -1 is desc , I made all indices for 1(asc)	 
+     { $group:
+         {
+           _id: "$ncodpers",
+           productSum: { $max: "$productSum" },
+         }
+     }
+	 //,{$out : "sortedTrainingData_prodSum_fechaDato"}
+   ],
+   {allowDiskUse :true}//For Sorting
+)
+
+
+//=============================================================================
+db.originalTrainingData.createIndex({fecha_dato:1})
+db.originalTrainingData.createIndex({ncodpers:1})
+db.originalTrainingData.createIndex({productSum:1})
+db.originalTrainingData.createIndex({ productSum: 1, fecha_dato: 1 })
+
+//You can create 4 Connections/Mongo Client and run each of them separately
